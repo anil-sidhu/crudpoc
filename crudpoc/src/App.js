@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement, useEffect } from 'react';
 import { Button, FormControl, FormControlLabel, InputLabel, makeStyles, MenuItem, Select, Switch } from '@material-ui/core';
 import './App.scss';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,141 +17,207 @@ function App() {
 
   const classes = useStyles();
   const [age, setAge] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [state, setState] = React.useState('');
+  const [plant, setPlant] = React.useState('');
+  const [machine, setMachine] = React.useState('');
+  const [labour, setLabour] = React.useState('');
+  const [rat, setRate] = React.useState('');
+  const [total, setTotal] = React.useState(0);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const [members, setMembers] = React.useState([{
+    id: 1,
+    labour: "g Laber",
+    machine: "mno",
+    name: "amit",
+    plant: "XYZ Plant",
+    rat: 100,
+    state: "UP",
+  }])
+  const collectData = () => {
+    console.warn(name, state, age, plant, machine, labour, rat);
+    let item =
+    {
+      id: members.length + 1, name, state, plant, machine, labour, rat
+    }
 
+    members.push(item)
+    setMembers(members);
+    setTotal(members.length)
+    console.warn("members", members);
+  }
+  // useEffect(() => {
+  //   console.warn("members net", members);
+  // }, [members])
+  function remove(val)
+  {
+    let item = members.filter(function (obj) {
+      return obj.id !== val;
+    });
+
+    
+    setMembers(item);
+    setTotal(members.length)
+  }
   return (
     <div className="App">
-   <div className="wrapper">
-     <h4>Add Labour</h4>
-     <div>    
-       <span>Employed</span>
-        <FormControlLabel
-          control={<Switch color="primary"  />}
-        />
-       <span>Contractual</span>
-      </div>
+      <div className="wrapper">
+        <h4>Add Labour</h4>
+        <div>
+          <span>Employed</span>
+          <FormControlLabel
+            control={<Switch color="primary" />}
+          />
+          <span>Contractual</span>
+        </div>
 
-      <div className="form vendor_form">
-        <h4 className="label">Vendor: </h4>
-        <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          Vendor (Labour) Name
+        <div className="form vendor_form">
+          <h4 className="label">Vendor: </h4>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              Vendor (Labour) Name
         </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          State
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setName(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={"amit"}>Amit</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              State
         </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          Plant
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setState(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={"UP"}>UP</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              Plant
         </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setPlant(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={"XYZ Plant"}>XYZ plant</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        <div className="form vendor_form">
+          <h4 className="label">Rate Per Person: </h4>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              Machine Type
+        </InputLabel>
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setMachine(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={"machine 1"}>Machine</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              Labour Type
+        </InputLabel>
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setLabour(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={"abc"}>Abc</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+              Rate Per Person/Annum (INR)
+        </InputLabel>
+            <Select
+              labelId="demo-simple-select-placeholder-label-label"
+              id="demo-simple-select-placeholder-label"
+              // value={age}
+              onChange={(e) => { setRate(e.target.value) }}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value={100}>100</MenuItem>
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={collectData} startIcon={<AddIcon />}
+          > Add</Button>
+        </div>
       </div>
-      
-      <div className="form vendor_form">
-        <h4 className="label">Rate Per Person: </h4>
-        <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          Machine Type
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          Labour Type
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-          Rate Per Person/Annum (INR)
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-        </Select>
-      </FormControl>
-      <Button variant="contained" color="primary"         startIcon={<AddIcon />}
-> Add</Button>
-      </div>
-   </div>
+      <h1>Members {members.length}</h1>
+      <table border="1" >
+        <tr>
+          <td>S. N.</td>
+          <td>Name</td>
+          <td>State</td>
+          <td>Plant</td>
+          <td>Machine</td>
+          <td>Labour</td>
+          <td>Rate</td>
+          <td>Edit</td>
+          <td>Delete</td>
+        </tr>
+        {
+          members.map((item) =>
+            <tr>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.state}</td>
+              <td>{item.plant}</td>
+              <td>{item.machine}</td>
+              <td>{item.labour}</td>
+              <td>{item.rate}</td>
+              <td>Edit icon</td>
+              <td><button onClick={() => { remove(item.id) }}>Delete icon</button> </td>
+            </tr>
+          )
+        }
+      </table>
     </div>
   );
 }
